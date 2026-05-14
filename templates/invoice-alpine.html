@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <script type="application/json" id="pdf-config">
+      { "output": "output/invoice-alpine.pdf" }
+    </script>
+
+    <!-- Alpine.js — swap for a local copy if you need offline support -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+
+    <style>
+      @page { size: 4in 5in; }
+      html, body { width: 4in; height: 5in; margin: 0; padding: 0; font-size: 16px; }
+      [x-cloak] { display: none; }
+    </style>
+  </head>
+  <body class="bg-white p-6 font-sans text-slate-800" x-cloak
+    x-data="{
+      items: [
+        { description: 'UI Design',        qty: 1, rate: 1200 },
+        { description: 'Frontend Dev',     qty: 3, rate:  800 },
+        { description: 'Code Review',      qty: 2, rate:  150 },
+        { description: 'Deployment Setup', qty: 1, rate:  300 }
+      ],
+      get total() { return this.items.reduce((s, i) => s + i.qty * i.rate, 0) }
+    }">
+
+    <h1 class="text-lg font-bold mb-1">Invoice #001</h1>
+    <p class="text-xs text-slate-400 mb-4">Due: June 1, 2026</p>
+
+    <table class="w-full text-xs mb-4">
+      <thead>
+        <tr class="border-b text-slate-400">
+          <th class="text-left pb-1">Description</th>
+          <th class="text-right pb-1">Qty</th>
+          <th class="text-right pb-1">Rate</th>
+          <th class="text-right pb-1">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template x-for="item in items">
+          <tr class="border-b border-slate-100">
+            <td class="py-1" x-text="item.description"></td>
+            <td class="py-1 text-right" x-text="item.qty"></td>
+            <td class="py-1 text-right" x-text="'$' + item.rate"></td>
+            <td class="py-1 text-right font-medium" x-text="'$' + (item.qty * item.rate).toLocaleString()"></td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+
+    <div class="border-t pt-2 flex justify-between text-xs font-semibold">
+      <span>Total</span>
+      <span x-text="'$' + total.toLocaleString()"></span>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <!--
+      PDF config — all fields are optional.
+        output  defaults to output/<filename>.pdf
+        media   "screen" | "print"  (default: "screen")
+    -->
+    <script type="application/json" id="pdf-config">
+      {
+        "output": "output/card.pdf",
+        "media": "screen"
+      }
+    </script>
+
+    <!-- Alpine.js — swap for a local copy if you need offline support -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+
+    <style>
+      /* ── Page dimensions ─────────────────────────────────────────────────
+         This controls the PDF size. Change to e.g. "8.5in 11in" for letter,
+         "210mm 297mm" for A4, or any arbitrary size like "400px 600px".      */
+      @page {
+        size: 3in 2in;
+      }
+
+      /* ── Document base ───────────────────────────────────────────────── */
+      html, body {
+        width: 3in;
+        height: 2in;
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body 
+    class="h-full"
+    x-data="{
+      items: [
+        'SD Cards Formatted',
+        'Batteries Charged, Chargers ready',
+        'LENS CAPS',
+        'Tripod if necessary',
+        'Shooting RAW',
+        'Shooting 33MP (no Super-35 mode)',
+      ]
+    }"
+    >
+    <!-- Everything below is normal HTML + Tailwind utility classes -->
+    <div class="h-full flex flex-col items-center">
+      <include src="partials/header.html">
+      <div class="text-xs w-full h-full flex flex-col items-center justify-center gap-1 font-sans">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th class="pl-3 text-left">#</th>
+              <th>Photo Checklist</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <template x-for="(item, index) in items">
+              <tr :class="index % 2 === 0 ? 'bg-gray-200' : ''">
+                <td class="pl-3 py-[2px] whitespace-nowrap" x-text="index + 1"></td>
+                <td class="pr-3 py-[2px] whitespace-nowrap" x-text="item"></td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

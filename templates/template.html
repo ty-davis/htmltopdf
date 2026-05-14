@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <!--
+      ── PDF Config ───────────────────────────────────────────────────────────
+      output  → where the PDF is saved  (default: output/<filename>.pdf)
+      media   → "screen" | "print"      (default: "screen")
+    -->
+    <script type="application/json" id="pdf-config">
+      {
+        "output": "output/my-document.pdf",
+        "media": "screen"
+      }
+    </script>
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+
+    <style>
+      /*
+        ── Page size ───────────────────────────────────────────────────────────
+        Common sizes:
+          Letter   → 8.5in 11in
+          A4       → 210mm 297mm
+          Card     → 3.5in 2in
+          Custom   → 400px 600px  (any CSS unit works)
+      */
+      @page {
+        size: 8.5in 11in;
+      }
+
+      /* Match html/body to your @page size above */
+      html, body {
+        width: 8.5in;
+        height: 11in;
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body class="bg-white font-sans text-slate-800 p-10">
+
+    <!-- ── Your content goes here ─────────────────────────────────────────── -->
+    <h1 class="text-2xl font-bold">Hello, world</h1>
+
+
+
+    <!--
+      ── Optional: data + JS rendering ────────────────────────────────────────
+      Define your data and build the DOM here. This script runs before the PDF
+      is captured, so everything rendered here shows up in the final file.
+
+      const items = [
+        { label: 'Item one', value: 100 },
+        { label: 'Item two', value: 200 },
+      ];
+
+      document.getElementById('list').innerHTML = items.map(item => `
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>${item.label}</span>
+          <span>${item.value}</span>
+        </div>
+      `).join('');
+    -->
+    <script>
+
+    </script>
+
+  </body>
+</html>
