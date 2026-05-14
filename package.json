@@ -4,7 +4,6 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "demo": "tsx src/demo.ts",
     "file": "tsx src/file.ts"
   },
   "keywords": [],
