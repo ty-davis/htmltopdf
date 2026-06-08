@@ -86,8 +86,13 @@ async function generateTailwindCss(html: string): Promise<string> {
 export async function renderPdfFromFile(templatePath: string): Promise<string> {
   const raw = await fs.readFile(templatePath, 'utf-8');
 
+  const baseDir = path.dirname(templatePath);
+
   // Resolve <include src="..."> tags before anything else
-  const html = await resolveIncludes(raw, path.dirname(templatePath));
+  const included = await resolveIncludes(raw, path.dirname(templatePath));
+
+  // Inline images as base64 
+  const html = await resolveImages(included, baseDir);
 
   const config = parsePdfConfig(html);
 
@@ -141,6 +146,20 @@ async function resolveIncludes(html: string, baseDir: string): Promise<string> {
 
   // Restore original comments
   return resolved.replace(/<!--__COMMENT_(\d+)__-->/g, (_, i) => comments[Number(i)]);
+}
+
+async function resolveImages(html: string, baseDir: string): Promise<string> {
+    const tag = /(<img\s[^>]*src=[="'])(?!https?:\/\/|data:)([^"']+)(["'])/gi
+    const matches = [...html.matchAll(tag)];
+    let resolved = html;
+    for (const [full, pre, src, post] of matches) {
+        const imgPath = path.resolve(baseDir, src);
+        const data = await fs.readFile(imgPath);
+        const ext = path.extname(src).slice(1);
+        const b64 = `data:image/${ext};base64,${data.toString('base64')}`;
+        resolved = resolved.replace(full, `${pre}${b64}${post}`);
+    }
+    return resolved;
 }
 
 // ── Shared Playwright renderer ───────────────────────────────────────────────

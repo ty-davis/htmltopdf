@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <!--
+      PDF config — all fields are optional.
+        output  defaults to output/<filename>.pdf
+        media   "screen" | "print"  (default: "screen")
+    -->
+    <script type="application/json" id="pdf-config">
+      {
+        "media": "screen"
+      }
+    </script>
+
+    <!-- Alpine.js — swap for a local copy if you need offline support -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+
+    <style>
+      /* ── Page dimensions ─────────────────────────────────────────────────
+         This controls the PDF size. Change to e.g. "8.5in 11in" for letter,
+         "210mm 297mm" for A4, or any arbitrary size like "400px 600px".      */
+      @page {
+        size: 8.5in 11in;
+      }
+
+      /* ── Document base ───────────────────────────────────────────────── */
+      html, body {
+        width: 8.5in;
+        height: 11in;
+        margin: 0;
+        padding: 0;
+        font-size: 12pt;
+      }
+    </style>
+  </head>
+  <body
+    class="h-full w-full"
+    x-data
+    >
+    <div class="w-full flex flex-wrap items-center justify-center">
+      <template x-for="i in [...Array(8).keys()]">
+        <div class="w-1/2">
+          <include src="training_day.html"/>
+        </div>
+      </template>
+
+    </div>
+  </body>
+</html>
